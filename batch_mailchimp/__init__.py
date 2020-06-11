@@ -1,3 +1,5 @@
+import json
+
 from mailchimp3 import MailChimp
 
 from .batch_operations import BatchOperations
@@ -55,7 +57,7 @@ class FakeRequest:
             'path': kwargs.get('url'),
         }
         if 'json' in kwargs:
-            operation['body'] = kwargs['json']
+            operation['body'] = json.dumps(kwargs['json'])
         self.batch.operations.append(operation)
 
     def json(self):
