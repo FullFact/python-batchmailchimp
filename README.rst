@@ -14,34 +14,38 @@ Installation
 
    pip install batch-mailchimp
 
-Initialization
-~~~~~~~~~~~~~~
+Usage
+~~~~~
 
 This can be used as a drop-in replacement for mailchimp3 – just change
-the import at the top:
+the import at the top, and everything should work the same:
 
 .. code:: python
 
    from batch_mailchimp import BatchMailChimp as MailChimp
 
-   client = MailChimp(mc_api='YOUR_API_KEY', mc_user='YOUR_USERNAME')
+   client = MailChimp(
+       mc_api='YOUR_API_KEY',
+       mc_user='YOUR_USERNAME')
 
-Examples
-~~~~~~~~
-
-You can use this exactly as you would the ``mailchimp3`` library. The addition is the ``Batch`` class, for keeping track of batch operations. To use it, first create a new batch, then include it in an API call via the ``batch`` keyword argument.
+The additional functionality comes when we initialise the client with ``batch=True``:
 
 .. code:: python
 
-   from batch_mailchimp import Batch, BatchMailChimp as MailChimp
+   from batch_mailchimp import BatchMailChimp as MailChimp
 
-   client = MailChimp(mc_api='YOUR_API_KEY', mc_user='YOUR_USERNAME')
+   batch_client = MailChimp(
+       mc_api='YOUR_API_KEY',
+       mc_user='YOUR_USERNAME',
+       batch=True)
 
-   # create a batch object...
-   my_batch = Batch()
+If we do this, operations are stored in a batch object. For example:
+
+.. code:: python
 
    # add John Doe with email john.doe@example.com to list matching id '123456'
-   client.lists.members.create('123456', {
+   batch_client.lists.members.create(
+       '123456', {
            'email_address': 'john.doe@example.com',
            'status': 'subscribed',
            'merge_fields': {
@@ -49,26 +53,19 @@ You can use this exactly as you would the ``mailchimp3`` library. The addition i
                'LNAME': 'Doe',
            },
        },
-       batch=my_batch,  # ...and include it in an API call.
    )
 
-The API call won’t fire immediately, but will instead be added to the batch. When you’re ready, run the batch:
+All new operations will be added to the batch. When we’re ready, we can run all the operations in the batch:
 
 .. code:: python
 
-   my_batch.run()
+   batch = batch_client.run_batch()
 
-You can check the status of your batch operation using:
-
-.. code:: python
-
-   my_batch.status()
-
-You can also delete your batch operation using:
+We can check the batch’s status using:
 
 .. code:: python
 
-   my_batch.delete()
+   batch.status()
 
 API Structure and Endpoints
 ---------------------------
