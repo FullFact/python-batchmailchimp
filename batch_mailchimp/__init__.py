@@ -1,4 +1,8 @@
 import json
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 from mailchimp3 import MailChimp
 
@@ -52,9 +56,10 @@ class FakeRequest:
     def __init__(self, batch, **kwargs):
         self.status_code = 200
         self.batch = batch
+        path = urlparse(kwargs.get('url')).path[4:]
         operation = {
             'method': kwargs.get('method'),
-            'path': kwargs.get('url'),
+            'path': path,
         }
         if 'json' in kwargs:
             operation['body'] = json.dumps(kwargs['json'])
