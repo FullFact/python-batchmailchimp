@@ -39,6 +39,8 @@ class Batch:
 
     @_pause_batch
     def run(self):
+        if not self.operations:
+            raise Exception('Nothing to do! Batch contains zero operations.')
         self._mc_client.batch_operations.create(self)
         self._mc_client.reset_batch()
         return self
