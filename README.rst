@@ -59,7 +59,7 @@ All new operations will be added to the batch. When we’re ready, we can run al
 
 .. code:: python
 
-   batch = batch_client.run_batch()
+   batch = batch_client.batch.run()
 
 We can check the batch’s status using:
 

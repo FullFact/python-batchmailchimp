@@ -27,9 +27,9 @@ class Batch:
 
     def _pause_batch(fn):
         def wrapper(self, *args, **kwargs):
-            self._mc_client._pause_batch = True
+            self._mc_client._is_paused = True
             resp = fn(self, *args, **kwargs)
-            self._mc_client._pause_batch = False
+            self._mc_client._is_paused = False
             return resp
         return wrapper
 
@@ -39,10 +39,8 @@ class Batch:
 
     @_pause_batch
     def run(self):
-        if not self.operations:
-            raise Exception('Nothing to do! Batch contains zero operations.')
         self._mc_client.batch_operations.create(self)
-        self._mc_client.reset_batch()
+        self._mc_client.batch = None
         return self
 
     @_pause_batch
@@ -53,6 +51,8 @@ class Batch:
 class FakeRequest:
     def __init__(self, batch, **kwargs):
         self.status_code = 200
+        if not batch:
+            batch = Batch(self)
         self.batch = batch
         operation = {
             'method': kwargs.get('method'),
@@ -67,24 +67,15 @@ class FakeRequest:
 
 
 class BatchMailChimp(MailChimp):
-    def run_batch(self):
-        return self.batch.run()
-
-    def reset_batch(self):
-        self.batch = Batch(self)
-        return self.batch
-
     def __init__(self, *args, batch=False, **kwargs):
         super(BatchMailChimp, self).__init__(*args, **kwargs)
-        if batch:
-            self.reset_batch()
-            self._pause_batch = False
-        else:
-            self.batch = False
+        self._is_batch = batch
+        self._is_paused = False
+        self.batch = None
         # Batch Operations
         self.batches = self.batch_operations = BatchOperations(self)
 
     def _make_request(self, **kwargs):
-        if self.batch and not self._pause_batch:
+        if self._is_batch and not self._is_paused:
             return FakeRequest(self.batch, **kwargs)
         return super(BatchMailChimp, self)._make_request(**kwargs)
