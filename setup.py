@@ -12,7 +12,7 @@ setup(
     url='https://github.com/FullFact/python-batchmailchimp',
     author='Andy Lulham',
     author_email='andy.lulham@fullfact.org',
-    version='0.0.7',
+    version='0.0.8',
     packages=find_packages(),
     license='MIT',
     keywords='mailchimp api v3 client wrapper',
