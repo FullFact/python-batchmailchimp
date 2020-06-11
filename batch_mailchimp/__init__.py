@@ -51,8 +51,6 @@ class Batch:
 class FakeRequest:
     def __init__(self, batch, **kwargs):
         self.status_code = 200
-        if not batch:
-            batch = Batch(self)
         self.batch = batch
         operation = {
             'method': kwargs.get('method'),
@@ -77,5 +75,7 @@ class BatchMailChimp(MailChimp):
 
     def _make_request(self, **kwargs):
         if self._is_batch and not self._is_paused:
+            if not self.batch:
+                self.batch = Batch(self)
             return FakeRequest(self.batch, **kwargs)
         return super(BatchMailChimp, self)._make_request(**kwargs)
