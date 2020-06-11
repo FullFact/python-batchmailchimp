@@ -39,7 +39,7 @@ The additional functionality comes when we initialise the client with ``batch=Tr
        mc_user='YOUR_USERNAME',
        batch=True)
 
-If we do this, operations are stored in a batch object. For example:
+If we do this, operations are stored up in the client, to be run later. For example:
 
 .. code:: python
 
