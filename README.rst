@@ -75,7 +75,7 @@ The API structure and endpoints match that of `mailchimp3 <https://pypi.org/proj
 Support
 -------
 
-If you are having issues, please `create an issue <https://github.com/andylolz/python-batchmailchimp/issues>`__ or `submit a pull request <https://github.com/andylolz/python-batchmailchimp/pulls>`__.
+If you are having issues, please `create an issue <https://github.com/FullFact/python-batchmailchimp/issues>`__ or `submit a pull request <https://github.com/FullFact/python-batchmailchimp/pulls>`__.
 
 License
 -------

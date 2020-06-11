@@ -9,9 +9,9 @@ with open(join(path, 'README.rst')) as f:
 setup(
     name='batch-mailchimp',
     description='A python client for v3 of MailChimp API, with batch support',
-    url='https://github.com/andylolz/python-batchmailchimp',
+    url='https://github.com/FullFact/python-batchmailchimp',
     author='Andy Lulham',
-    author_email='a.lulham@gmail.com',
+    author_email='andy.lulham@fullfact.org',
     version='0.0.5',
     packages=find_packages(),
     license='MIT',
