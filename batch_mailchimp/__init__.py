@@ -33,9 +33,9 @@ class Batch:
 
     @_pause_batch
     def run(self):
-        resp = self._mc_client.batch_operations.create(self)
+        self._mc_client.batch_operations.create(self)
         self._mc_client.reset_batch()
-        return resp
+        return self
 
     @_pause_batch
     def delete(self):
