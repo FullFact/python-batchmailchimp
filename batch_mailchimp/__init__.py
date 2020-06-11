@@ -10,6 +10,10 @@ class Batch:
         self._run = False
         self.id = None
 
+    def __getitem__(self, item):
+        if item == 'id':
+            return self.id
+
     def __repr__(self):
         return '<{}.{}: {} operation{}{}>'.format(
             self.__class__.__module__,
