@@ -54,8 +54,8 @@ class FakeRequest:
             'method': kwargs.get('method'),
             'path': kwargs.get('url'),
         }
-        if 'body' in kwargs:
-            operation['body'] = kwargs['body']
+        if 'json' in kwargs:
+            operation['body'] = kwargs['json']
         self.batch.operations.append(operation)
 
     def json(self):
