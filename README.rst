@@ -70,9 +70,7 @@ We can check the batch’s status using:
 API Structure and Endpoints
 ---------------------------
 
-The API Structure matches that of `mailchimp3 <https://pypi.org/project/mailchimp3/>`__. You should refer to their documentation for usage.
-
-Endpoints are also the same, except for the addition of the ``batch`` keyword.
+The API structure and endpoints match that of `mailchimp3 <https://pypi.org/project/mailchimp3/>`__. You should refer to their documentation for usage.
 
 Support
 -------
