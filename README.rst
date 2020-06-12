@@ -1,6 +1,14 @@
 Python BatchMailchimp
 =====================
 
+.. image:: https://img.shields.io/pypi/v/batch-mailchimp.svg
+    :alt: PyPI Package latest release
+    :target: https://pypi.org/project/batch-mailchimp/
+
+.. image:: https://img.shields.io/pypi/l/batch-mailchimp.svg
+    :alt: License
+    :target: https://pypi.org/project/batch-mailchimp/
+
 A light wrapper around `mailchimp3 <https://pypi.org/project/mailchimp3/>`__ that makes it easier to use batch
 operations.
 
