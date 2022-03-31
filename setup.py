@@ -17,7 +17,7 @@ setup(
     license='MIT',
     keywords='mailchimp api v3 client wrapper',
     long_description=readme,
-    install_requires=['mailchimp3>=2.0.0'],
+    install_requires=['mailchimp3>=3.0.17'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
