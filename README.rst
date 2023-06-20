@@ -50,17 +50,8 @@ If we do this, operations are stored up in the client, to be run later. For exam
 
 .. code:: python
 
-   # add John Doe with email john.doe@example.com to list matching id '123456'
-   client.lists.members.create(
-       '123456', {
-           'email_address': 'john.doe@example.com',
-           'status': 'subscribed',
-           'merge_fields': {
-               'FNAME': 'John',
-               'LNAME': 'Doe',
-           },
-       },
-   )
+   # Fetch all MailChimp lists
+   client.lists.get_all_lists()
 
 All new operations will be added to the batch. When we’re ready, we can run all the operations in the batch:
 
@@ -72,12 +63,19 @@ We can check the batch’s status using:
 
 .. code:: python
 
-   batch.status()
+   batch.status(refresh=True)
+
+Once it has finished, we can get the response with:
+
+.. code:: python
+
+   response = batch.response()
+   response.body
 
 API Structure and Endpoints
 ---------------------------
 
-The API structure and endpoints match that of `mailchimp3 <https://pypi.org/project/mailchimp3/>`__. You should refer to their documentation for usage.
+The API structure and endpoints match that of `mailchimp-marketing <https://mailchimp.com/developer/marketing/api/>`__. You should refer to their documentation for usage.
 
 Support
 -------
