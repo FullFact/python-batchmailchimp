@@ -9,8 +9,7 @@ Python BatchMailchimp
     :alt: License
     :target: https://pypi.org/project/batch-mailchimp/
 
-A light wrapper around `mailchimp3 <https://pypi.org/project/mailchimp3/>`__ that makes it easier to use batch
-operations.
+A light wrapper around `mailchimp-marketing <https://pypi.org/project/mailchimp-marketing/>`__ that makes it easier to use batch operations.
 
 Getting Started
 ---------------
@@ -25,34 +24,34 @@ Installation
 Usage
 ~~~~~
 
-This can be used as a drop-in replacement for mailchimp3 – just change
-the import at the top, and everything should work the same:
+This can be used as a drop-in replacement for mailchimp-marketing –
+just change the import at the top, and everything should work the same:
 
 .. code:: python
 
-   from batch_mailchimp import BatchMailChimp as MailChimp
+   import batch_mailchimp as MailchimpMarketing
 
-   client = MailChimp(
-       mc_api='YOUR_API_KEY',
-       mc_user='YOUR_USERNAME')
+   client = MailchimpMarketing.Client({
+       "api_key": "YOUR_API_KEY",
+   })
 
 The additional functionality comes when we initialise the client with ``batch=True``:
 
 .. code:: python
 
-   from batch_mailchimp import BatchMailChimp as MailChimp
+   import batch_mailchimp as MailchimpMarketing
 
-   batch_client = MailChimp(
-       mc_api='YOUR_API_KEY',
-       mc_user='YOUR_USERNAME',
-       batch=True)
+   client = MailchimpMarketing.Client({
+       "api_key": "YOUR_API_KEY",
+       "batch": True,
+   })
 
 If we do this, operations are stored up in the client, to be run later. For example:
 
 .. code:: python
 
    # add John Doe with email john.doe@example.com to list matching id '123456'
-   batch_client.lists.members.create(
+   client.lists.members.create(
        '123456', {
            'email_address': 'john.doe@example.com',
            'status': 'subscribed',
@@ -67,7 +66,7 @@ All new operations will be added to the batch. When we’re ready, we can run al
 
 .. code:: python
 
-   batch = batch_client.batch.run()
+   batch = batch_client.batches.run()
 
 We can check the batch’s status using:
 
