@@ -1,36 +1,11 @@
-from collections import UserDict
 import json
 from io import BytesIO
 import tarfile
 from itertools import islice
 from mailchimp_marketing.api import batches_api
 import requests
-
-
-class MyCollection(UserDict):
-    def __repr__(self):
-        return "<{module}.{name}: {data}>".format(
-            module=self.__class__.__module__,
-            name=self.__class__.__name__,
-            data=list(self.data.values()),
-        )
-
-    def __getitem__(self, item):
-        if type(item) is str:
-            return super().__getitem__(item)
-        return list(self.data.values())[item]
-
-    def __iter__(self):
-        for item in self.data.values():
-            yield item
-
-
-class ResponseCollection(MyCollection):
-    ...
-
-
-class BatchCollection(MyCollection):
-    ...
+from .decorators import no_batch
+from .collections import BatchCollection, ResponseCollection
 
 
 class Response:
@@ -100,18 +75,6 @@ class Batch:
 
     def delete(self):
         return self._batches_api.delete_request(self.batch_id)
-
-
-def no_batch(func):
-    def wrapper_no_batch(self, *args, **kwargs):
-        batch_mode = self.api_client.batch_mode
-        self.api_client.set_batch_mode(False)
-        try:
-            response = func(self, *args, **kwargs)
-        finally:
-            self.api_client.set_batch_mode(batch_mode)
-        return response
-    return wrapper_no_batch
 
 
 class BatchesApi(batches_api.BatchesApi):
