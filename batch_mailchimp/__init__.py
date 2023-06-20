@@ -29,7 +29,6 @@ from mailchimp_marketing.api.templates_api import TemplatesApi
 from mailchimp_marketing.api.verified_domains_api import VerifiedDomainsApi
 from mailchimp_marketing import api_client
 from mailchimp_marketing import Client as MailChimpClient
-
 from .batches_api import BatchesApi
 
 
