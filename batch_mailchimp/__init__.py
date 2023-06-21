@@ -72,7 +72,7 @@ class ApiClient(api_client.ApiClient):
             "operation_id": uuid.uuid4().hex,
         }
         if query_params:
-            operation["params"] = query_params
+            operation["params"] = dict(query_params)
         if body:
             operation["body"] = json.dumps(body)
 
