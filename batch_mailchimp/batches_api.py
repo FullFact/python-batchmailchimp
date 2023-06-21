@@ -119,9 +119,8 @@ class BatchesApi(batches_api.BatchesApi):
         return self._batches
 
     def delete_all(self, refresh=False, **kwargs):
-        if refresh:
-            self.list(refresh=refresh)
-        batch_ids = list(self._batches.keys())
+        batches = self.list(refresh=refresh)
+        batch_ids = [batch.batch_id for batch in batches]
         for batch_id in batch_ids:
             self.delete_request(batch_id)
         return self._batches
