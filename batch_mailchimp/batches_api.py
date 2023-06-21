@@ -32,20 +32,21 @@ class Batch:
 
     def update(self, **kwargs):
         self.batch_id = kwargs.get("id")
+        self.total_operations = kwargs.get("total_operations")
+        self.finished_operations = kwargs.get("finished_operations")
+        self.errored_operations = kwargs.get("errored_operations")
+        self.submitted_at = kwargs.get("submitted_at")
+        self.completed_at = kwargs.get("completed_at")
+        self.response_body_url = kwargs.get("response_body_url")
         self._status = kwargs.get("status")
-        self._total_operations = kwargs.get("total_operations")
-        self._finished_operations = kwargs.get("finished_operations")
-        self._errored_operations = kwargs.get("errored_operations")
-        self._submitted_at = kwargs.get("submitted_at")
-        self._completed_at = kwargs.get("completed_at")
-        self._response_body_url = kwargs.get("response_body_url")
 
     def __repr__(self):
-        return "<{module}.{name}: {total} operation{s} ({status})>".format(
+        return "<{module}.{name}: {finished}/{total} operation{s} ({status})>".format(
             module=self.__class__.__module__,
             name=self.__class__.__name__,
-            total=self._total_operations,
-            s="s" if self._total_operations != 1 else "",
+            finished=self.finished_operations,
+            total=self.total_operations,
+            s="s" if self.total_operations != 1 else "",
             status=self._status,
         )
 
@@ -58,8 +59,8 @@ class Batch:
         if self.response:
             return self.response
         batch = self.status(refresh=True)
-        if batch._status == "finished" and batch._response_body_url:
-            content = requests.get(batch._response_body_url).content
+        if batch._status == "finished" and batch.response_body_url:
+            content = requests.get(batch.response_body_url).content
             tf = tarfile.open(fileobj=BytesIO(content))
             output = []
             for member in tf.getmembers():
