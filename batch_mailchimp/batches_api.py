@@ -154,6 +154,7 @@ class BatchesApi(batches_api.BatchesApi):
                     self._batches[batch_data["id"]].update(**batch_data)
                 else:
                     self._batches[batch_data["id"]] = Batch(self, **batch_data)
+            self._batches = sorted(self._batches, key=lambda x: x.submitted_at)
         return self._batches
 
     @no_batch
