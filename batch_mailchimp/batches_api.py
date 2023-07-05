@@ -149,12 +149,12 @@ class BatchesApi(batches_api.BatchesApi):
     def list(self, refresh=False, **kwargs):
         if refresh:
             results = super().list(**kwargs)
-            for batch_data in results["batches"]:
-                if batch_data["id"] in self._batches:
-                    self._batches[batch_data["id"]].update(**batch_data)
-                else:
-                    self._batches[batch_data["id"]] = Batch(self, **batch_data)
-            self._batches = sorted(self._batches, key=lambda x: x.submitted_at)
+            self._batches = BatchCollection({
+                batch_data["id"]: Batch(self, **batch_data)
+                for batch_data in sorted(
+                    results["batches"],
+                    key=lambda x: x["submitted_at"])
+            })
         return self._batches
 
     @no_batch
