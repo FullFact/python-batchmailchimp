@@ -27,7 +27,7 @@ class Batch:
     def __init__(self, batches_api, **kwargs):
         self._batches_api = batches_api
         self._operations = kwargs.get("operations")
-        self._response = None
+        self._responses = None
         self.update(**kwargs)
 
     def update(self, **kwargs):
@@ -55,9 +55,9 @@ class Batch:
             self._batches_api.status(self.batch_id, refresh=refresh)
         return self
 
-    def response(self):
-        if self._response:
-            return self._response
+    def responses(self):
+        if self._responses:
+            return self._responses
         batch = self.status(refresh=True)
         if batch._status == "finished" and batch.response_body_url:
             content = requests.get(batch.response_body_url).content
@@ -68,11 +68,11 @@ class Batch:
                 if file_content is None:
                     continue
                 output += json.load(file_content)
-            self._response = ResponseCollection({
+            self._responses = ResponseCollection({
                 o["operation_id"]: Response(**o)
                 for o in output
             })
-            return self._response
+            return self._responses
 
     def delete(self):
         return self._batches_api.delete_request(self.batch_id)
