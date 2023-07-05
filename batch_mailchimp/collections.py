@@ -3,7 +3,7 @@ from collections import UserDict
 
 class MyCollection(UserDict):
     def __str__(self):
-        return str(list(self.data.values())),
+        return str(list(self.data.values()))
 
     def __repr__(self):
         return "<{module}.{name}: {str_rep}>".format(
