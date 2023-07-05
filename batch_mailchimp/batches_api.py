@@ -1,7 +1,6 @@
 import json
 from io import BytesIO
 import tarfile
-from itertools import islice
 from mailchimp_marketing.api import batches_api
 import requests
 from .decorators import no_batch
@@ -110,13 +109,14 @@ class BatchesApi(batches_api.BatchesApi):
 
     @no_batch
     def bulk_run(self):
-        if len(self.api_client.operations) == 0:
+        if self.api_client.operations == []:
             raise Exception("No operations to run")
-        operations = iter(self.api_client.operations)
-        while operations_chunk := list(islice(operations, self._max_operations)):
+        while self.api_client.operations:
+            operations_chunk = self.api_client.operations[:self._max_operations]
             batch_data = self.start({"operations": operations_chunk})
             batch = Batch(self, operations=operations_chunk, **batch_data)
             self._batches[batch.batch_id] = batch
+            self.api_client.operations = self.api_client.operations[self._max_operations:]
         return self._batches
 
     def delete_all(self, refresh=False, **kwargs):
