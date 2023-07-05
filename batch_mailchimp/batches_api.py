@@ -13,12 +13,17 @@ class Response:
         self.status_code = kwargs["status_code"]
         self.body = json.loads(kwargs["response"])
 
-    def __repr__(self):
-        return "<{module}.{name}: {operation_id} ({status_code})>".format(
-            module=self.__class__.__module__,
-            name=self.__class__.__name__,
+    def __str__(self):
+        return "{operation_id} ({status_code}".format(
             operation_id=self.operation_id,
             status_code=self.status_code,
+        )
+
+    def __repr__(self):
+        return "<{module}.{name}: {str_rep}>".format(
+            module=self.__class__.__module__,
+            name=self.__class__.__name__,
+            str_rep=str(self),
         )
 
 
@@ -39,14 +44,19 @@ class Batch:
         self.response_body_url = kwargs.get("response_body_url")
         self._status = kwargs.get("status")
 
-    def __repr__(self):
-        return "<{module}.{name}: {finished}/{total} operation{s} ({status})>".format(
-            module=self.__class__.__module__,
-            name=self.__class__.__name__,
+    def __str__(self):
+        return "{finished}/{total} operation{s} ({status})".format(
             finished=self.finished_operations,
             total=self.total_operations,
             s="s" if self.total_operations != 1 else "",
             status=self._status,
+        )
+
+    def __repr__(self):
+        return "<{module}.{name}: {str_rep}>".format(
+            module=self.__class__.__module__,
+            name=self.__class__.__name__,
+            str_rep=str(self),
         )
 
     def status(self, refresh=False):

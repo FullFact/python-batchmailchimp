@@ -113,9 +113,14 @@ class Client(MailChimpClient):
         self.verifiedDomains = VerifiedDomainsApi(self.api_client)
         self.batches = BatchesApi(self.api_client)
 
+    def __str__(self):
+        return "batch mode {batch_mode_toggle}".format(
+            batch_mode_toggle="ON" if self.api_client.batch_mode else "OFF",
+        )
+
     def __repr__(self):
-        return "<{module}.{name}: batch mode {batch_mode_toggle}>".format(
+        return "<{module}.{name}: {str_rep}>".format(
             module=self.__class__.__module__,
             name=self.__class__.__name__,
-            batch_mode_toggle="ON" if self.api_client.batch_mode else "OFF",
+            str_rep=str(self),
         )

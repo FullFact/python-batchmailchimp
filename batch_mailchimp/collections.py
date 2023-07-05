@@ -2,11 +2,14 @@ from collections import UserDict
 
 
 class MyCollection(UserDict):
+    def __str__(self):
+        return str(list(self.data.values())),
+
     def __repr__(self):
-        return "<{module}.{name}: {data}>".format(
+        return "<{module}.{name}: {str_rep}>".format(
             module=self.__class__.__module__,
             name=self.__class__.__name__,
-            data=list(self.data.values()),
+            str_rep=str(self),
         )
 
     def __getitem__(self, item):
